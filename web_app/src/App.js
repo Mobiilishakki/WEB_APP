@@ -19,16 +19,20 @@ const TextArea = ({ content, rows, cols, readOnly }) => {
 
 const App = () => {
   const [fenNotation, setFenNotation] = useState('')
+  const [lastMove, setLastMove] = useState('')
 
   return (
     <div className="App">
-
       <h1>Mobiilishakki</h1>
-
-      <Button text="Connect"></Button>
-
       <br />
-      <TextArea content={fenNotation} rows={10} cols={50} readOnly={true} />
+      <Button text="Connect"></Button>
+      <br />
+      <h3>FEN-notaatio</h3>
+      <TextArea content={fenNotation} rows={5} cols={50} readOnly={true} />
+      <br />
+      <h3>Viimeisin siirto</h3>
+      <br />
+      <h3>Pelitilanne</h3>
     </div>
   );
 }
