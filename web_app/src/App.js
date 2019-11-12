@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import gameService from './services/games';
 import Chessboard from './components/Chessboard';
 import './App.css';
 
+// general button component
+// takes onclick function and button text as parameters
 const Button = ({ onClick, text }) => {
   return (
     <div>
@@ -11,21 +13,24 @@ const Button = ({ onClick, text }) => {
   )
 }
 
-const FENTextArea = ({ content, rows, cols, readOnly }) => {
+// component for fen notation
+// takes content (fen notation as string) as parameter
+const Fen = ({ content }) => {
   return (
     <div>
-      <textarea value={content} rows={rows} cols={cols} readOnly={readOnly} />
+      <textarea value={content} rows={5} cols={50} readOnly={true} />
     </div>
   )
 }
 
+// acutal web-app
+// connects to backend server and retrieves game state infomarion
 const App = () => {
   const [fenNotation, setFenNotation] = useState('')      // fen notation of game state      
   const [gameOn, setGameOn] = useState(false)             // is the game on or not
   const [playerColor, setPlayerColor] = useState('black') // player color (white or black)
 
-  const changeGameState = () => { // set game to on or off
-    setGameOn(!gameOn)
+  const updateFromServer = () => { // looping function
     if (gameOn) {
       gameService
         .getFenNotation()
@@ -35,9 +40,15 @@ const App = () => {
         .catch(error => {
           alert("Failed to retrieve fen notation")
         })
-    } else {
+    }else{
       setFenNotation('')
     }
+  } 
+
+  useEffect(updateFromServer, [gameOn]) // call updateFromServer when gamestate changes
+
+  const changeGameState = () => { // set game to on or off
+    setGameOn(!gameOn)
   }
 
   const changePlayerColor = () => { // change player color to white or black
@@ -49,7 +60,7 @@ const App = () => {
       <h1>Mobiilishakki</h1>
       <Button onClick={changeGameState} text={gameOn ? 'Disconnect' : 'Connect'} />
       <h3>FEN</h3>
-      <FENTextArea content={fenNotation} rows={5} cols={50} readOnly={true} />
+      <Fen content={fenNotation} />
       <h3>Gamestate</h3>
       <Button onClick={changePlayerColor} text={"Change player view"} />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
