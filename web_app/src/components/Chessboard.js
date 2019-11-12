@@ -2,40 +2,52 @@ import React from 'react'
 import './Chessboard.css'
 
 // array containing pieces information from a1 to h8
-const PIECES = Array(64).fill('')
+// two dimensional (row, col)
+let PIECES
+
+// function that creates two dimeansional array
+const create2DimensionalArray = (rows, cols) => {
+  let array = new Array(rows)
+  for (let i = 0; i < rows; i++){
+    for (let j = 0; j < cols; j++) {
+      array[i] = new Array(cols)
+    }
+  }
+  return array
+}
 
 // function takes fen notation as input and
 // fills the pieces array with pieces information.
 const parseFenNotation = (fen) => {
-  let square = 0
+  PIECES = create2DimensionalArray(8, 8)  // init 
+  let col = 0
+  let row = 7
   for (let i = 0; i < fen.length; i++) {
-    if (square >= 64) {
-      break
-    }
     let c = fen.charAt(i)
     if (c === '/') { // next line
+      row = row - 1
+      col = 0
       continue
     } else if (c >= '0' && c <= '9') {  // number of empty squares
       const blanks = parseInt(c)
-      square = square + blanks - 1
+      col = col + blanks - 1
     } else { // actual chess piece
-      PIECES[square] = c
+      PIECES[row][col] = c
     }
-    square = square + 1
+    col = col + 1
   }
 }
 
 // single chessboard square. 
 // takes row number, column number and color of the square as parameters
 const ChessboardSquare = ({ row, col, color }) => {
-  const piece = (row - 1) * 8 + col - 1 // index of the piece
   if (color === 'white') {
     return (
-      <td className="light">{PIECES[piece]}</td>
+      <td className="light">{PIECES[row - 1][col - 1]}</td>
     )
   }
   return (
-    <td className="dark">{PIECES[piece]}</td>
+    <td className="dark">{PIECES[row - 1][col - 1]}</td>
   )
 }
 
