@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import gameService from './services/games';
 import Chessboard from './components/Chessboard';
 import './App.css';
@@ -26,8 +26,18 @@ const App = () => {
 
   const changeGameState = () => { // set game to on or off
     setGameOn(!gameOn)
-    // CHANGE THIS !!!
-    setFenNotation(gameOn === true ? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR" : '')
+    if (gameOn) {
+      gameService
+        .getFenNotation()
+        .then(notation => {
+          setFenNotation(notation)
+        })
+        .catch(error => {
+          alert("Failed to retrieve fen notation")
+        })
+    } else {
+      setFenNotation('')
+    }
   }
 
   const changePlayerColor = () => { // change player color to white or black
@@ -39,7 +49,7 @@ const App = () => {
       <h1>Mobiilishakki</h1>
       <Button onClick={changeGameState} text={gameOn ? 'Disconnect' : 'Connect'} />
       <h3>FEN</h3>
-      <FENTextArea content="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR" rows={5} cols={50} readOnly={true} />
+      <FENTextArea content={fenNotation} rows={5} cols={50} readOnly={true} />
       <h3>Gamestate</h3>
       <Button onClick={changePlayerColor} text={"Change player view"} />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
