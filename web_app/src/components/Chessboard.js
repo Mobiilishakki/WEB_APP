@@ -1,9 +1,21 @@
-import React from 'react'
-import './Chessboard.css'
+import React from 'react';
+import './Chessboard.css';
+// import p from './p.svg';  // black pawn 
+// import r from './r.svg';  // black rook
+// import n from './n.svg';  // black knight
+// import b from './b.svg';  // black bishop
+// import q from './q.svg';  // black queen
+// import k from './k.svg';  // black king
+// import P from './P.svg';  // white pawn
+// import R from './R.svg';  // white rook
+// import N from './N.svg';  // white knight
+// import B from './B.svg';  // white bishop
+// import Q from './Q.svg';  // white queen
+// import K from './K.svg';  // white knight
 
 // array containing pieces information from a1 to h8
 // two dimensional (row, col)
-let PIECES
+let PIECES;
 
 // function that creates two dimeansional array
 const create2DimensionalArray = (rows, cols) => {
@@ -111,4 +123,5 @@ const Chessboard = ({ playerColor, fen }) => {
   )
 }
 
+// export the chessboard component
 export default Chessboard;
