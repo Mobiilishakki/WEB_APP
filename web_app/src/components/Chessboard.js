@@ -1,17 +1,17 @@
 import React from 'react';
 import './Chessboard.css';
-// import p from './p.svg';  // black pawn 
-// import r from './r.svg';  // black rook
-// import n from './n.svg';  // black knight
-// import b from './b.svg';  // black bishop
-// import q from './q.svg';  // black queen
-// import k from './k.svg';  // black king
-// import P from './P.svg';  // white pawn
-// import R from './R.svg';  // white rook
-// import N from './N.svg';  // white knight
-// import B from './B.svg';  // white bishop
-// import Q from './Q.svg';  // white queen
-// import K from './K.svg';  // white knight
+import bp from './bp.png';  // black pawn 
+import br from './br.png';  // black rook
+import bn from './bn.png';  // black knight
+import bb from './bb.png';  // black bishop
+import bq from './bq.png';  // black queen
+import bk from './bk.png';  // black king
+import wp from './wp.png';  // white pawn
+import wr from './wr.png';  // white rook
+import wn from './wn.png';  // white knight
+import wb from './wb.png';  // white bishop
+import wq from './wq.png';  // white queen
+import wk from './wk.png';  // white knight
 
 // array containing pieces information from a1 to h8
 // two dimensional (row, col)
@@ -20,7 +20,7 @@ let PIECES;
 // function that creates two dimeansional array
 const create2DimensionalArray = (rows, cols) => {
   let array = new Array(rows)
-  for (let i = 0; i < rows; i++){
+  for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       array[i] = new Array(cols)
     }
@@ -50,16 +50,50 @@ const parseFenNotation = (fen) => {
   }
 }
 
+// function that returns correct chess piece image
+// by following the rules of fen notation
+const getChessPieceImage = (fenChar) => {
+  switch (fenChar) {
+    case 'p':
+      return bp
+    case 'r':
+      return br
+    case 'n':
+      return bn
+    case 'b':
+      return bb
+    case 'q':
+      return bq
+    case 'k':
+      return bk
+    case 'P':
+      return wp
+    case 'R':
+      return wr
+    case 'N':
+      return wn
+    case 'B':
+      return wb
+    case 'Q':
+      return wq
+    case 'K':
+      return wk
+    default: // unkown character --> no chess piece available
+      return ''
+  }
+}
+
 // single chessboard square. 
 // takes row number, column number and color of the square as parameters
 const ChessboardSquare = ({ row, col, color }) => {
+  const piece = PIECES[row - 1][col - 1]
   if (color === 'white') {
     return (
-      <td className="light">{PIECES[row - 1][col - 1]}</td>
+      <td className="light"><img src={getChessPieceImage(piece)} alt={piece} /></td>
     )
   }
   return (
-    <td className="dark">{PIECES[row - 1][col - 1]}</td>
+    <td className="dark"><img src={getChessPieceImage(piece)} alt={piece} /></td>
   )
 }
 
