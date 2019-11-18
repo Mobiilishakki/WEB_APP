@@ -37,8 +37,8 @@ const App = () => {
       .then(notation => {
         setFenNotation(notation)
       })
-      .catch(error => { 
-        setFenNotation("Could not retrieve FEN notation")
+      .catch(error => {
+        setFenNotation("FAIL")
       })
   }
 
