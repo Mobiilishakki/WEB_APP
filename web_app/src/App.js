@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gameService from './services/games';
-import Chessboard from './components/Chessboard';
+import Chessboard from './components/chessboard/Chessboard';
 import './App.css';
+import Clock from './components/Clock';
 
 // general button component
 // takes onclick function and button text as parameters
@@ -57,11 +58,12 @@ const App = () => {
     <div className="App">
       <h1>Mobiilishakki</h1>
       <Button onClick={() => setGameOn(!gameOn)} text={gameOn ? 'Disconnect' : 'Connect'} />
-      <h3>FEN</h3>
-      <Fen content={fenNotation} />
       <h3>Gamestate</h3>
+      <Clock />
       <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
+      <h3>FEN</h3>
+      <Fen content={fenNotation} />
     </div>
   );
 }

@@ -1,17 +1,17 @@
 import React from 'react';
 import './Chessboard.css';
-import bp from './bp.png';  // black pawn 
-import br from './br.png';  // black rook
-import bn from './bn.png';  // black knight
-import bb from './bb.png';  // black bishop
-import bq from './bq.png';  // black queen
-import bk from './bk.png';  // black king
-import wp from './wp.png';  // white pawn
-import wr from './wr.png';  // white rook
-import wn from './wn.png';  // white knight
-import wb from './wb.png';  // white bishop
-import wq from './wq.png';  // white queen
-import wk from './wk.png';  // white knight
+import bp from './pieces/bp.png';  // black pawn 
+import br from './pieces/br.png';  // black rook
+import bn from './pieces/bn.png';  // black knight
+import bb from './pieces/bb.png';  // black bishop
+import bq from './pieces/bq.png';  // black queen
+import bk from './pieces/bk.png';  // black king
+import wp from './pieces/wp.png';  // white pawn
+import wr from './pieces/wr.png';  // white rook
+import wn from './pieces/wn.png';  // white knight
+import wb from './pieces/wb.png';  // white bishop
+import wq from './pieces/wq.png';  // white queen
+import wk from './pieces/wk.png';  // white knight
 
 // array containing pieces information from a1 to h8
 // two dimensional (row, col)
