@@ -14,16 +14,6 @@ const Button = ({ onClick, text }) => {
   )
 }
 
-// component for fen notation
-// takes content (fen notation as string) as parameter
-const Fen = ({ content }) => {
-  return (
-    <div>
-      <textarea value={content} rows={3} cols={50} readOnly={true} />
-    </div>
-  )
-}
-
 // actual web-app component
 // connects to backend server and retrieves game state infomarion
 const App = () => {
@@ -60,10 +50,9 @@ const App = () => {
       <Button onClick={() => setGameOn(!gameOn)} text={gameOn ? 'Disconnect' : 'Connect'} />
       <h3>Gamestate</h3>
       <Clock />
-      <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
+      <Button text="Finnish your move" />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
-      <h3>FEN</h3>
-      <Fen content={fenNotation} />
+      <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
     </div>
   );
 }
