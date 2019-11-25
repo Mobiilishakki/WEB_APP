@@ -50,7 +50,7 @@ const App = () => {
       <Button onClick={() => setGameOn(!gameOn)} text={gameOn ? 'Disconnect' : 'Connect'} />
       <h3>Gamestate</h3>
       <Clock />
-      <Button text="Finnish your move" />
+      <Button text="Finnish move" />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
       <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
     </div>
