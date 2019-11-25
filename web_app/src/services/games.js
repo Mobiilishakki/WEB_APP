@@ -9,7 +9,7 @@ const getFenNotation = () => {
 
 // POST to server that player has done his/her move
 const postMoveDone = () => {
-  console.log("ERROR: Not implmented")
+  axios.post(`${config.BACKEND_URI}/turn`, { player: "WHITE" })
 }
 
-export default { getFenNotation }
+export default { getFenNotation, postMoveDone }

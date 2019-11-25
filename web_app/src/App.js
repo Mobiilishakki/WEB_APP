@@ -33,6 +33,11 @@ const App = () => {
       })
   }
 
+  const notifyServer = () => {
+    gameService
+      .postMoveDone()
+  }
+
   useEffect(() => { // do this when gamestate changes between on or off 
     if (gameOn) {
       updateFromServer()
@@ -50,7 +55,7 @@ const App = () => {
       <Button onClick={() => setGameOn(!gameOn)} text={gameOn ? 'Disconnect' : 'Connect'} />
       <h3>Gamestate</h3>
       <Clock />
-      <Button text="Finnish move" />
+      <Button onClick={notifyServer} text="Finnish move" />
       <Chessboard playerColor={playerColor} fen={fenNotation} />
       <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
     </div>
