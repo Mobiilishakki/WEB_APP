@@ -1,0 +1,15 @@
+.clockTable {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30em;
+  border-style: solid;
+  border-width: medium;
+  background-color: rgb(150, 150, 150);
+}
+
+.counterFont {
+  font-size: 120%;
+  font-weight: bold;
+}
