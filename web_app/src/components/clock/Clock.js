@@ -15,7 +15,7 @@ const formatTime = ({ minutes, seconds }) => {
   if (seconds < 10) {
     result = result + "0" + seconds
   } else {
-    result = result + "seconds"
+    result = result + seconds
   }
   return result
 }

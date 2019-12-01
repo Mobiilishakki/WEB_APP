@@ -1,32 +1,26 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import gameService from './services/games';
 import Chessboard from './components/chessboard/Chessboard';
 import './App.css';
 import Clock from './components/clock/Clock';
 
-const GAMETIME = { minutes: 25, seconds: 0 }
+// global variables for chess game
+const TIMELIMIT = { minutes: 25, seconds: 0 }
 
-// general button component
-// takes onclick function and button text as parameters
-const Button = ({ onClick, text }) => {
-  return (
-    <div>
-      <button onClick={onClick}>{text}</button>
-    </div>
-  )
-}
 
 // actual web-app component
-// connects to backend server and retrieves game state infomarion
+// connects to backend server and retrieves game state information
+// also send notification to server that piece has moved on board
 const App = () => {
   const [fenNotation, setFenNotation] = useState('')        // fen notation of game state      
-  const [gameOn, setGameOn] = useState(false)               // is the game on or not
+  const [gameIsActive, setGameIsActive] = useState(false)   // is the game on or not
   const [playerColor, setPlayerColor] = useState('white')   // player color (white or black)
-  const [timerWhite, setTimerWhite] = useState(GAMETIME)    // player time starts from 25 min
-  const [timerBlack, setTimerBlack] = useState(GAMETIME)    // time should be polled from server
-  const interval = useRef()                                 // information about loop (id)
+  const [timerWhite, setTimerWhite] = useState(TIMELIMIT)   // player time starts from 25 min
+  const [timerBlack, setTimerBlack] = useState(TIMELIMIT)   // time should be polled from server
+  const [timer, setTimer] = useState(0)                     // used to count time between moves
+  const [turn, setTurn] = useState("white")                 // tells which players turn is it
 
-  // function for polling fen notation from server
+  // function for polling fen-notation from server
   const updateFromServer = () => {
     gameService
       .getFenNotation()
@@ -42,36 +36,72 @@ const App = () => {
   const notifyServer = () => {
     gameService
       .postMoveDone()
+    setTurn(turn === 'white' ? 'black' : 'white')
   }
 
-  // function to be called when gamestate changes from on to off
+  // function to countdown remaining time
+  const countdown = () => {
+    let minutes = turn === 'white' ? timerWhite.minutes : timerBlack.minutes
+    let seconds = turn === 'white' ? timerWhite.seconds : timerBlack.seconds
+    seconds = seconds - 1
+    if (seconds < 0) {
+      minutes = minutes - 1
+      seconds = 59
+    }
+    if (turn === 'white') {
+      setTimerWhite({ minutes, seconds })
+    } else {
+      setTimerBlack({ minutes, seconds })
+    }
+  }
+
+  // useEffect to loop fen-notation from server
   useEffect(() => {
-    if (gameOn) {
+    let interval = null
+    if (gameIsActive) {
       updateFromServer()
-      const id = setInterval(updateFromServer, 2500)
-      interval.current = id
+      interval = setInterval(updateFromServer, 2500)
     } else {
       setFenNotation('')
-      setTimerWhite(GAMETIME)
-      setTimerBlack(GAMETIME)
-      clearInterval(interval.current)
+      clearInterval(interval)
     }
-  }, [gameOn, interval])
+    return () => clearInterval(interval)
+  }, [gameIsActive])
 
-  // component structure
+  // useEffect for timer
+  useEffect(() => {
+    let interval = null
+    if (gameIsActive) {
+      countdown()
+      interval = setInterval(() => {
+        setTimer(timer => timer + 1)
+      }, 1000)
+    } else {
+      setTimerWhite(TIMELIMIT)
+      setTimerBlack(TIMELIMIT)
+      clearInterval(interval)
+    }
+    return () => clearInterval(interval)
+  }, [gameIsActive, timer])
+
+  // application layout structure
   return (
     <div className="App">
       <h1>Mobiilishakki</h1>
       <div className="menubar">
-        <Button onClick={() => setGameOn(!gameOn)} text={gameOn ? 'Disconnect from server' : 'Connect to server'} />
-        <Button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")} text={"Change player view"} />
+        <button onClick={() => setGameIsActive(!gameIsActive)}>
+          {gameIsActive ? 'Disconnect from server' : 'Connect to server'}
+        </button>
+        <button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")}>
+          {"Change player view"}
+        </button>
       </div>
       <h3>Gamestate</h3>
       <Clock timerWhite={timerWhite} timerBlack={timerBlack} />
-      <Button onClick={notifyServer} text="Finish your move" />
+      <button onClick={notifyServer}>Finish your move</button>
       <Chessboard playerColor={playerColor} fen={fenNotation} />
     </div>
-  );
+  )
 }
 
 // export the application component
