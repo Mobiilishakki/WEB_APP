@@ -21,6 +21,8 @@ const formatTime = ({ minutes, seconds }) => {
 }
 
 // clock element that shows time
+// takes time objects for black and white as input
+// example_timer = { minutes: 25, seconds: 0 }
 const Clock = ({ timerWhite, timerBlack }) => {
   return (
     <table className="clockTable">

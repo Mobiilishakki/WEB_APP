@@ -12,7 +12,7 @@ const postMoveDone = () => {
   axios
     .post(`${config.BACKEND_URI}/turn`, { player: "WHITE" })
     .then(response => { })
-    .catch(exception => {})
+    .catch(exception => { })
 }
 
 export default { getFenNotation, postMoveDone }

@@ -6,6 +6,8 @@ import Clock from './components/clock/Clock';
 
 // global variables for chess game
 const TIMELIMIT = { minutes: 25, seconds: 0 }
+const WHITE = "white"
+const BLACK = "black"
 
 
 // actual web-app component
@@ -14,11 +16,11 @@ const TIMELIMIT = { minutes: 25, seconds: 0 }
 const App = () => {
   const [fenNotation, setFenNotation] = useState('')        // fen notation of game state      
   const [gameIsActive, setGameIsActive] = useState(false)   // is the game on or not
-  const [playerColor, setPlayerColor] = useState('white')   // player color (white or black)
+  const [playerColor, setPlayerColor] = useState(WHITE)   // player color (white or black)
   const [timerWhite, setTimerWhite] = useState(TIMELIMIT)   // player time starts from 25 min
   const [timerBlack, setTimerBlack] = useState(TIMELIMIT)   // time should be polled from server
   const [timer, setTimer] = useState(0)                     // used to count time between moves
-  const [turn, setTurn] = useState("white")                 // tells which players turn is it
+  const [turn, setTurn] = useState(WHITE)                 // tells which players turn is it
 
   // function for polling fen-notation from server
   const updateFromServer = () => {
@@ -34,21 +36,22 @@ const App = () => {
 
   // function to notify server that move has been made
   const notifyServer = () => {
-    gameService
-      .postMoveDone()
-    setTurn(turn === 'white' ? 'black' : 'white')
+    if (gameIsActive) {
+      gameService.postMoveDone()
+      setTurn(turn === WHITE ? BLACK : WHITE)
+    }
   }
 
   // function to countdown remaining time
   const countdown = () => {
-    let minutes = turn === 'white' ? timerWhite.minutes : timerBlack.minutes
-    let seconds = turn === 'white' ? timerWhite.seconds : timerBlack.seconds
+    let minutes = turn === WHITE ? timerWhite.minutes : timerBlack.minutes
+    let seconds = turn === WHITE ? timerWhite.seconds : timerBlack.seconds
     seconds = seconds - 1
     if (seconds < 0) {
       minutes = minutes - 1
       seconds = 59
     }
-    if (turn === 'white') {
+    if (turn === WHITE) {
       setTimerWhite({ minutes, seconds })
     } else {
       setTimerBlack({ minutes, seconds })
@@ -84,15 +87,23 @@ const App = () => {
     return () => clearInterval(interval)
   }, [gameIsActive, timer])
 
+  // connect to game or disconnect from existing game
+  const handleGameActivation = () => {
+    setGameIsActive(!gameIsActive)
+    if (!gameIsActive) {
+      setTurn(WHITE)
+    }
+  }
+
   // application layout structure
   return (
     <div className="App">
       <h1>Mobiilishakki</h1>
       <div className="menubar">
-        <button onClick={() => setGameIsActive(!gameIsActive)}>
+        <button onClick={handleGameActivation}>
           {gameIsActive ? 'Disconnect from server' : 'Connect to server'}
         </button>
-        <button onClick={() => setPlayerColor(playerColor === "black" ? "white" : "black")}>
+        <button onClick={() => setPlayerColor(playerColor === BLACK ? WHITE : BLACK)}>
           {"Change player view"}
         </button>
       </div>

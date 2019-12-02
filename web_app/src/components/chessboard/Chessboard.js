@@ -100,36 +100,36 @@ const ChessboardSquare = ({ row, col, color }) => {
 // chessboard row (8 chessboard squares).
 // takes the rownumber as first parameter
 // takes the color ("black", "white") of first square as 2nd parameter.
-const ChessboardRow = ({ rowNum, color }) => {
+const ChessboardRow = ({ playerColor, rowNum, color }) => {
   const otherColor = color === "white" ? "black" : "white"
   return (
     <tr>
       <th>{rowNum}</th>
-      <ChessboardSquare row={rowNum} col={1} color={color} />
-      <ChessboardSquare row={rowNum} col={2} color={otherColor} />
-      <ChessboardSquare row={rowNum} col={3} color={color} />
-      <ChessboardSquare row={rowNum} col={4} color={otherColor} />
-      <ChessboardSquare row={rowNum} col={5} color={color} />
-      <ChessboardSquare row={rowNum} col={6} color={otherColor} />
-      <ChessboardSquare row={rowNum} col={7} color={color} />
-      <ChessboardSquare row={rowNum} col={8} color={otherColor} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 1 : 8} color={color} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 2 : 7} color={otherColor} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 3 : 6} color={color} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 4 : 5} color={otherColor} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 5 : 4} color={color} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 6 : 3} color={otherColor} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 7 : 2} color={color} />
+      <ChessboardSquare row={rowNum} col={playerColor === 'white' ? 8 : 1} color={otherColor} />
     </tr>
   )
 }
 
 // chessboard alphabetic top axis
-const TopAxis = () => {
+const TopAxis = ({ playerColor }) => {
   return (
     <tr>
       <th></th>
-      <th>a</th>
-      <th>b</th>
-      <th>c</th>
-      <th>d</th>
-      <th>e</th>
-      <th>f</th>
-      <th>g</th>
-      <th>h</th>
+      <th>{playerColor === 'white' ? 'a' : 'h'}</th>
+      <th>{playerColor === 'white' ? 'b' : 'g'}</th>
+      <th>{playerColor === 'white' ? 'c' : 'f'}</th>
+      <th>{playerColor === 'white' ? 'd' : 'e'}</th>
+      <th>{playerColor === 'white' ? 'e' : 'd'}</th>
+      <th>{playerColor === 'white' ? 'f' : 'c'}</th>
+      <th>{playerColor === 'white' ? 'g' : 'b'}</th>
+      <th>{playerColor === 'white' ? 'h' : 'a'}</th>
     </tr>
   )
 }
@@ -143,15 +143,15 @@ const Chessboard = ({ playerColor, fen }) => {
   return (
     <table>
       <tbody>
-        <TopAxis />
-        <ChessboardRow rowNum={rownums[0]} color={playerColor} />
-        <ChessboardRow rowNum={rownums[1]} color={enemyColor} />
-        <ChessboardRow rowNum={rownums[2]} color={playerColor} />
-        <ChessboardRow rowNum={rownums[3]} color={enemyColor} />
-        <ChessboardRow rowNum={rownums[4]} color={playerColor} />
-        <ChessboardRow rowNum={rownums[5]} color={enemyColor} />
-        <ChessboardRow rowNum={rownums[6]} color={playerColor} />
-        <ChessboardRow rowNum={rownums[7]} color={enemyColor} />
+        <TopAxis playerColor={playerColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[0]} color={playerColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[1]} color={enemyColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[2]} color={playerColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[3]} color={enemyColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[4]} color={playerColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[5]} color={enemyColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[6]} color={playerColor} />
+        <ChessboardRow playerColor={playerColor} rowNum={rownums[7]} color={enemyColor} />
       </tbody>
     </table>
   )
