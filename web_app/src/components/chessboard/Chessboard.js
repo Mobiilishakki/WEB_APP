@@ -98,8 +98,9 @@ const ChessboardSquare = ({ row, col, color }) => {
 }
 
 // chessboard row (8 chessboard squares).
-// takes the rownumber as first parameter
-// takes the color ("black", "white") of first square as 2nd parameter.
+// takes player color as first parameter
+// takes the rownumber as second parameter
+// takes the color ("black", "white") of first square as third parameter.
 const ChessboardRow = ({ playerColor, rowNum, color }) => {
   const otherColor = color === "white" ? "black" : "white"
   return (
@@ -118,6 +119,7 @@ const ChessboardRow = ({ playerColor, rowNum, color }) => {
 }
 
 // chessboard alphabetic top axis
+// takes player color as first parameter
 const TopAxis = ({ playerColor }) => {
   return (
     <tr>
