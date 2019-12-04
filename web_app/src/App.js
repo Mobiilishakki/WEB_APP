@@ -37,7 +37,7 @@ const App = () => {
   // function to notify server that move has been made
   const notifyServer = () => {
     if (gameIsActive) {
-      gameService.postMoveDone()
+      gameService.postMoveDone(playerColor)
       setTurn(turn === WHITE ? BLACK : WHITE)
     }
   }

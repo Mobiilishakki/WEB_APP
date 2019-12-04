@@ -8,9 +8,9 @@ const getFenNotation = () => {
 }
 
 // POST to server that player has done his/her move
-const postMoveDone = () => {
+const postMoveDone = (playerColor) => {
   axios
-    .post(`${config.BACKEND_URI}/snapshot`, { player: "WHITE" })
+    .post(`${config.BACKEND_URI}/snapshot`, { player: playerColor })
     .then(response => { })
     .catch(exception => { })
 }
