@@ -3,21 +3,25 @@
 }
 
 h1 {
-  margin: 2vmin;
+  margin-top: 2vmin;
   text-decoration: underline;
 }
 
 h3 {
-  margin-top: 5vmin;
+  margin-top: 2vmin;
 }
 
 button {
-  margin-bottom: 2vmin;
+  margin: 2vmin;
   background-color: white;
   color: black;
   padding: 10px;
   border-radius: 8px;
   border: 2px solid;
+}
+
+.menubar {
+  display: inline-flex;
 }
 
 
